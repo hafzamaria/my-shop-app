@@ -1,0 +1,32 @@
+.nav{
+    margin: 20px;
+    background-color: black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav>.userName{
+    color: white;
+    margin-top: 22px;
+    margin-left: 20px; 
+  }
+
+ .nav>ul{
+    display: flex;
+  justify-content: flex-end;
+  
+    list-style: none;
+    margin-right: 20px;
+    
+  }
+  
+  .nav>ul>li{
+  margin: 5px;
+  padding:  5px 8px 5px 8px;
+  border-radius: 10px;
+  background-color: #0d6efd;  
+  }
+  .nav>ul>li>a{
+    text-decoration: none;
+    color: white;
+  } 
