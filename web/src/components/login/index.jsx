@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -48,7 +47,7 @@ export default function Login() {
 
         let baseUrl = "http://localhost:5000";
         try {
-            let response = await axios.post(`${baseUrl}/login`,
+            let response = await axios.post(`${baseUrl}/cart`,
                 {
                     firstName: data.get('firstName'),
                     code: data.get('code'),
@@ -155,4 +154,3 @@ export default function Login() {
     </ThemeProvider>
   );
 }
-//////inline Export done in this app///

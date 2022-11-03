@@ -37,7 +37,7 @@ export default function NavBar() {
     {(state.isLogin === true)?////authgaurd//jwt work
     <ul>
         <li> <Link to="/">Home</Link>             </li>
-        <li> <Link to="/profile">Profile</Link>       </li>
+        <li> <Link to="/profile">View-Product</Link>       </li>
         <li> <Link to="/gallery">Gallery</Link>   </li>
      
         <li> <Link to="/login" onClick={logoutHandler}>Logout</Link>  </li>

@@ -1,3 +1,5 @@
+
+
 import express from 'express';
 import cors from 'cors';
 import { nanoid } from 'nanoid';
@@ -74,7 +76,7 @@ app.post("/cart", (req, res) => {
 
                             var token = jwt.sign({
                                 _id: data._id,
-                                firstName: data.firstName,
+                               
                                 code: data.code,
                                 firstName: data.firstName,
                                 lastName: data.lastName,
@@ -206,7 +208,7 @@ app.use(function (req, res, next) {
     }
     jwt.verify(req.cookies.Token, SECRET, function (err, decodedData) {
         if (!err) {
-
+   console.log(err)
             console.log("decodedData: ", decodedData);
 
             const nowDate = new Date().getTime() / 1000;
