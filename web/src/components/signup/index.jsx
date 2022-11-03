@@ -19,7 +19,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Maria&Co
+        TheEShop
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -35,9 +35,9 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     console.log({
         firstName:data.get('firstName'),
-        lastName:data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
+        price:data.get('price'),
+      code: data.get('code'),
+      description: data.get('description'),
       agree:data.get('agree'),
       
     });
@@ -46,9 +46,9 @@ export default function SignUp() {
     try{
       let response =   await axios.post(`${baseUrl}/signup`,{
         firstName:data.get('firstName'),
-        lastName:data.get('lastName'),
-        email:data.get('email'),
-        password: data.get('password'),
+        price:data.get('price'),
+        code:data.get('code'),
+        description: data.get('description'),
         image:data.get('image')
         
       })
@@ -80,7 +80,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            create product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -91,7 +91,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Product First Name"
                   autoFocus
                 />
               </Grid>
@@ -100,7 +100,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Product Last Name"
                   name="lastName"
                   autoComplete="family-name"
                 />
@@ -131,40 +131,40 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="price"
+                  label="Price"
+                  name="price"
+                  autoComplete="price"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="code"
+                  label="Code"
+                  type="number"
+                  id="code"
+                  autoComplete="new-code"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                 //   required
                   fullWidth
-                  name="address"
-                  label="address"
+                  name="description"
+                  label="description"
                   type="text"
-                  id='address'
+                  id='description'
                
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox name='agree' value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -172,19 +172,20 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Create Product
             </Button>
             <Grid container justifyContent="flex-end">
-              <Grid item>
+              {/* <Grid item>
                 <Link href="#" variant="body2">
                   Already have an account? Sign in
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
-  );
+  ); 
+ 
 }

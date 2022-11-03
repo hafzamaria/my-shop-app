@@ -19,9 +19,9 @@ let Profile = () => {
                     <br />
                     name: {state.user?.firstName} {state.user?.lastName}
                     <br />
-                    email: {state.user?.email}
+                    code: {state.user?.code}
                     <br />
-                    age: {state.user?.age}
+                price: {state.user?.price}
                 </div>
             }
 

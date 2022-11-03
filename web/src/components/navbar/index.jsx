@@ -1,3 +1,8 @@
+
+
+
+
+
 import { Link } from "react-router-dom";
 import "./index.css";
 import { useContext } from "react";
@@ -41,8 +46,8 @@ export default function NavBar() {
         }
         {(state.isLogin === false)?
         <ul>
-        <li> <Link to="/login">Login</Link>       </li>
-        <li> <Link to="/signup">Signup</Link>     </li>
+        <li> <Link to="/login">Cart</Link>       </li>
+        <li> <Link to="/signup">Shop</Link>     </li>
    
     </ul>
     :null
