@@ -24,56 +24,61 @@ mongoose.connect(dbURI);
 
 ////step 01 (create schema)///this validation is for security purpose//
 
-const userSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
   firstName: { type: String },
   lastName: { type: String },
-  email: { type: String, required: true, },
-  password: { type: String, required: true, },
-  age: { type: Number, min: 17, max: 65, default: 18 },
+  price: { type: Number, required: true, },
+  code: { type: Number, required: true, },
+ 
   // subjects:Array,
-  isMarried: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now }, //go to schema type (ctrl+f)typt on box date now & copy///
 });
 
-const userModel = mongoose.model('User1', userSchema);
+const productModel = mongoose.model('Product1', productSchema);
 
 
 
 
-app.post("/login", (req, res) => {
+app.post("/cart", (req, res) => {
 
     let body = req.body;
 
-    if (!body.email || !body.password) { // null check - undefined, "", 0 , false, null , NaN
+    if ( !body.code) { // null check - undefined, "", 0 , false, null , NaN
         res.status(400).send(
             `required fields missing, request example: 
                 {
                     "email": "abc@abc.com",
                     "password": "12345"
-                }`
+                }
+                `
         );
         return;
     }
 
     // check if user already exist // query email user
-    userModel.findOne(
-        { email: body.email },
+    productModel.findOne(
+        { code: body.code },
         // { email:1, firstName:1, lastName:1, age:1, password:0 },
         "email firstName lastName age password",
         (err, data) => {
             if (!err) {
                 console.log("data: ", data);
 
-                if (data) { // user found
-                    varifyHash(body.password, data.password).then(isMatched => {
+                // if (data) { // user found
+                    // varifyHash
+                    // (body.code, data.code)(isMatched => {
 
-                        console.log("isMatched: ", isMatched);
+                        // console.log("isMatched: ", isMatched);
 
-                        if (isMatched) {
+                        // if (isMatched) {
 
                             var token = jwt.sign({
                                 _id: data._id,
-                                email: data.email,
+                                firstName: data.firstName,
+                                code: data.code,
+                                firstName: data.firstName,
+                                lastName: data.lastName,
+                                price:data.price,
                                 iat: Math.floor(Date.now() / 1000) - 30,
                                 exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
                             }, SECRET);
@@ -86,28 +91,28 @@ app.post("/login", (req, res) => {
                             });
 
                             res.send({
-                                message: "login successful",
+                                message: "product added in cart successfully",
                                 profile: {
-                                    email: data.email,
+                                    code: data.code,
                                     firstName: data.firstName,
                                     lastName: data.lastName,
-                                    age: data.age,
-                                    _id: data._id
+                                    _id: data._id,
+                                    price:data.price
                                 }
                             });
                             return;
-                        } else {
-                            console.log("user not found");
-                            res.status(401).send({ message: "Incorrect email or password" });
-                            return;
-                        }
-                    })
+                        // } else {
+                        //     console.log("user not found");
+                        //     res.status(401).send({ message: "Incorrect email or password" });
+                        //     return;
+                        // }
+                    // })
 
-                } else { // user not already exist
-                    console.log("user not found");
-                    res.status(401).send({ message: "Incorrect email or password" });
-                    return;
-                }
+                // } else { // user not already exist
+                //     console.log("user not found");
+                //     res.status(401).send({ message: "Incorrect email or password" });
+                //     return;
+                // }
             } else {
                 console.log("db error: ", err);
                 res.status(500).send({ message: "login failed, please try later" });
@@ -132,60 +137,61 @@ app.post("/signup", (req, res) => {
 
     let body = req.body;
 
-    if (!body.firstName
-        || !body.lastName
-        || !body.email
-        || !body.password
-    ) {
-        res.status(400).send(
-            `required fields missing, request example: 
-                {
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "abc@abc.com",
-                    "password": "12345"
-                }`
-        );
-        return;
-    }
+    // if (!body.firstName
+    //     || !body.lastName
+    //     || !body.email
+    //     || !body.password
+    // ) {
+    //     res.status(400).send(
+    //         `required fields missing, request example: 
+    //             {
+    //                 "firstName": "John",
+    //                 "lastName": "Doe",
+    //                 "email": "abc@abc.com",
+    //                 "password": "12345"
+    //             }`
+    //     );
+    //     return;
+    // }
 
     // check if user already exist // query email user
-    userModel.findOne({ email: body.email }, (err, data) => {
-        if (!err) {
+    productModel.findOne({ code: body.code }, (err, data) => {
+        // if (!err) {
             console.log("data: ", data);
 
-            if (data) { // user already exist
-                console.log("user already exist: ", data);
-                res.status(400).send({ message: "user already exist,, please try a different email" });
-                return;
+            // if (data) { // user already exist
+            //     console.log("user already exist: ", data);
+            //     res.status(400).send({ message: "user already exist,, please try a different email" });
+            //     return;
 
-            } else { // user not already exist
+            // }
+            //  else { // user not already exist
 
-                stringToHash(body.password).then(hashString => {
+                // stringToHash(body.password).then(hashString => {
 
-                    userModel.create({
+                    productModel.create({
                         firstName: body.firstName,
                         lastName: body.lastName,
-                        email: body.email.toLowerCase(),
-                        password: hashString
+                        price: body.price,
+                        code: body.code
                     },
                         (err, result) => {
                             if (!err) {
                                 console.log("data saved: ", result);
-                                res.status(201).send({ message: "user is created" });
+                                res.status(201).send({ message: "product is created" });
                             } else {
                                 console.log("db error: ", err);
                                 res.status(500).send({ message: "internal server error" });
                             }
                         });
-                })
+                // })
 
-            }
-        } else {
-            console.log("db error: ", err);
-            res.status(500).send({ message: "db error in query" });
-            return;
-        }
+            // }
+        // } else {
+        //     console.log("db error: ", err);
+        //     res.status(500).send({ message: "db error in query" });
+        //     return;
+        // }
     })
 });
 
@@ -223,7 +229,7 @@ app.use(function (req, res, next) {
 app.get("/users", async (req, res) => {
 
     try {
-        let allUser = await userModel.find({}).exec();
+        let allUser = await productModel.find({}).exec();
         res.send(allUser);
 
     } catch (error) {
@@ -234,11 +240,11 @@ app.get("/users", async (req, res) => {
 app.get("/profile", async (req, res) => {
 
     try {
-        let user = await userModel.findOne({ _id: req.body.token._id }).exec();
-        res.send(user);
+        let product = await productModel.findOne({ _id: req.body.token._id }).exec();
+        res.send(product);
 
     } catch (error) {
-        res.status(500).send({ message: "error getting users" });
+        res.status(500).send({ message: "error getting products" });
     }
 })
 
